@@ -2,7 +2,8 @@
    Grades File Editor - Modern Light Theme (PySide6 / Qt Stylesheet)
    ========================================================================== */
 
-QMainWindow {
+QMainWindow,
+QDialog {
     background-color: #F5F7FA;
     color: #0F172A;
     font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -18,7 +19,8 @@ QWidget {
 QFrame#headerCard,
 QFrame#toolbarCard,
 QFrame#tableCard,
-QFrame#footerCard {
+QFrame#footerCard,
+QFrame#aboutCard {
     background-color: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 10px;
@@ -49,6 +51,30 @@ QLabel#fileStatusLabel {
     padding: 6px 12px;
     color: #475569;
     font-size: 12px;
+}
+
+QLabel#aboutImage {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    color: #94A3B8;
+    font-size: 12px;
+}
+
+QLabel#aboutTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+QLabel#aboutMeta {
+    font-size: 13px;
+    color: #334155;
+}
+
+QLabel#aboutLink {
+    font-size: 13px;
+    color: #2563EB;
 }
 
 /* Buttons */
@@ -93,6 +119,22 @@ QPushButton#secondaryButton:hover {
 
 QPushButton#secondaryButton:pressed {
     background-color: #C7D2FE;
+}
+
+QPushButton#ghostButton {
+    background-color: #FFFFFF;
+    color: #334155;
+    border: 1px solid #CBD5E1;
+}
+
+QPushButton#ghostButton:hover {
+    background-color: #F8FAFC;
+    border-color: #94A3B8;
+    color: #0F172A;
+}
+
+QPushButton#ghostButton:pressed {
+    background-color: #E2E8F0;
 }
 
 /* Inputs */

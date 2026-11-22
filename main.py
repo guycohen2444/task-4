@@ -6,10 +6,11 @@ from pathlib import Path
 
 import openpyxl
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QIntValidator
+from PySide6.QtGui import QIntValidator, QPixmap
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
+    QDialog,
     QFileDialog,
     QFrame,
     QHBoxLayout,
@@ -26,8 +27,109 @@ from PySide6.QtWidgets import (
 )
 
 APP_TITLE = "Grades File Editor"
+AUTHOR_NAME = "Guy Cohen"
+AUTHOR_EMAIL = "guycohen24444@gmail.com"
+LINKEDIN_URL = "https://www.linkedin.com/in/guy-cohen-4294a6366/"
+GITHUB_REPO_URL = "https://github.com/guycohen2444/task-4"
+ABOUT_IMAGE_NAME = "image.png"
 DEFAULT_ROW_COUNT = 50
 TABLE_HEADERS = ["ID", "Original Grades", "Corrected Grades"]
+
+
+class AboutWindow(QDialog):
+    """Styled About dialog displaying author photo, contact details, LinkedIn, and GitHub repo."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("About")
+        self.setFixedWidth(420)
+        self.setModal(True)
+
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(20, 20, 20, 20)
+        root_layout.setSpacing(14)
+
+        card = QFrame()
+        card.setObjectName("aboutCard")
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(20, 20, 20, 20)
+        card_layout.setSpacing(10)
+
+        self.image_label = QLabel()
+        self.image_label.setObjectName("aboutImage")
+        self.image_label.setFixedSize(180, 180)
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        image_path = Path(__file__).resolve().parent / ABOUT_IMAGE_NAME
+        pixmap = QPixmap(str(image_path))
+        if image_path.exists() and not pixmap.isNull():
+            scaled = pixmap.scaled(
+                self.image_label.size(),
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+            self.image_label.setPixmap(scaled)
+        else:
+            self.image_label.setText(f"Missing {ABOUT_IMAGE_NAME}")
+
+        title_label = QLabel(APP_TITLE)
+        title_label.setObjectName("aboutTitle")
+        title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.name_label = QLabel(f"<b>Name:</b> {AUTHOR_NAME}")
+        self.name_label.setObjectName("aboutMeta")
+
+        self.email_label = QLabel(
+            f'<b>Email:</b> <a href="mailto:{AUTHOR_EMAIL}">{AUTHOR_EMAIL}</a>'
+        )
+        self.email_label.setObjectName("aboutMeta")
+        self.email_label.setOpenExternalLinks(True)
+        self.email_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction
+        )
+
+        self.link_label = QLabel(
+            f'<b>LinkedIn:</b> <a href="{LINKEDIN_URL}">My LinkedIn Profile</a>'
+        )
+        self.link_label.setObjectName("aboutLink")
+        self.link_label.setOpenExternalLinks(True)
+        self.link_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction
+        )
+
+        self.github_label = QLabel(
+            f'<b>GitHub Repository:</b><br>'
+            f'<a href="{GITHUB_REPO_URL}">{GITHUB_REPO_URL}</a>'
+        )
+        self.github_label.setObjectName("aboutLink")
+        self.github_label.setOpenExternalLinks(True)
+        self.github_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextBrowserInteraction
+        )
+        self.github_label.setWordWrap(True)
+
+        card_layout.addWidget(
+            self.image_label, alignment=Qt.AlignmentFlag.AlignHCenter
+        )
+        card_layout.addWidget(title_label)
+        card_layout.addSpacing(4)
+        card_layout.addWidget(self.name_label)
+        card_layout.addWidget(self.email_label)
+        card_layout.addWidget(self.link_label)
+        card_layout.addWidget(self.github_label)
+
+        root_layout.addWidget(card)
+
+        button_row = QHBoxLayout()
+        button_row.addStretch()
+
+        close_btn = QPushButton("Close")
+        close_btn.setObjectName("primaryButton")
+        close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        close_btn.clicked.connect(self.accept)
+        button_row.addWidget(close_btn)
+
+        root_layout.addLayout(button_row)
 
 
 class GradesEditorWindow(QMainWindow):
@@ -86,8 +188,14 @@ class GradesEditorWindow(QMainWindow):
         title_col.addWidget(title_label)
         title_col.addWidget(subtitle_label)
 
+        self.about_button = QPushButton("About")
+        self.about_button.setObjectName("ghostButton")
+        self.about_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.about_button.clicked.connect(self.show_about)
+
         header_layout.addLayout(title_col)
         header_layout.addStretch()
+        header_layout.addWidget(self.about_button)
         main_layout.addWidget(header_card)
 
         # --- Toolbar Card (Load File + Selected File Indicator) ---
@@ -449,6 +557,11 @@ class GradesEditorWindow(QMainWindow):
                 "Failed to Open File",
                 f"Unable to open the file in the default application:\n{exc}",
             )
+
+    def show_about(self):
+        """Display the About window with author info, LinkedIn, and GitHub repo."""
+        dialog = AboutWindow(self)
+        dialog.exec()
 
 
 def main():
