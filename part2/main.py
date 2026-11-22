@@ -1,6 +1,8 @@
+import csv
 import sys
 from pathlib import Path
 
+import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
 from PySide6.QtCore import Qt
@@ -64,17 +66,65 @@ class IceCreamGraphWindow(QMainWindow):
         file_path, _ = QFileDialog.getOpenFileName(
             self, "Select CSV File", "", "CSV Files (*.csv);;All Files (*)"
         )
-        if file_path:
-            # TODO: Read the CSV file at `file_path` into `self.temperatures` and `self.profits`.
-            self.plot_graph()
+        if not file_path:
+            return
+
+        self.temperatures.clear()
+        self.profits.clear()
+
+        try:
+            with open(file_path, "r", encoding="utf-8-sig", newline="") as file:
+                reader = csv.reader(file)
+                next(reader, None)  # Skip header row
+                for row in reader:
+                    if len(row) < 2:
+                        continue
+                    self.temperatures.append(float(row[0].strip()))
+                    self.profits.append(float(row[1].strip()))
+        except Exception as exc:
+            QMessageBox.critical(
+                self, "Error", f"Could not read CSV file:\n{exc}"
+            )
+            return
+
+        self.plot_graph()
 
     def plot_graph(self):
         self.ax.clear()
-        self.ax.plot([20, 25, 30, 35], [100, 180, 260, 340], marker="o")
-        self.ax.set_title("Ice Cream Sales (Placeholder)")
-        self.ax.set_xlabel("Temperature")
-        self.ax.set_ylabel("Profits")
-        self.ax.grid(True, linestyle="--", alpha=0.5)
+        if not self.temperatures or not self.profits:
+            self.canvas.draw()
+            return
+
+        text_color = (0.3, 0.3, 0.3)
+
+        self.ax.scatter(self.temperatures, self.profits, s=1)
+        self.ax.spines["top"].set_visible(False)
+        self.ax.spines["right"].set_visible(False)
+
+        self.ax.set_title("Ice Cream Sales vs. Temperature", color=text_color)
+        self.ax.set_xlabel("Temperature", color=text_color)
+        self.ax.set_ylabel("Profits", color=text_color)
+
+        x = np.array(self.temperatures)
+        y = np.array(self.profits)
+        m, b = np.polyfit(x, y, 1)
+
+        x_line = np.linspace(x.min(), x.max(), 100)
+        y_line = m * x_line + b
+        self.ax.plot(x_line, y_line, color="#2638DC", linewidth=1.5)
+
+        sign = "+" if b >= 0 else "-"
+        equation = f"y = {m:.2f}x {sign} {abs(b):.2f}"
+        self.ax.text(
+            0.05,
+            0.92,
+            equation,
+            transform=self.ax.transAxes,
+            color=text_color,
+            fontsize=10,
+            verticalalignment="top",
+        )
+
         self.canvas.draw()
 
     def show_about(self):
