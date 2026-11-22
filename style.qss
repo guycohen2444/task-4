@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Grades File Editor - Modern Light Theme (PySide6 / Qt Stylesheet)
+   ========================================================================== */
+
+QMainWindow {
+    background-color: #F5F7FA;
+    color: #0F172A;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+}
+
+QWidget {
+    color: #0F172A;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Cards / Containers */
+QFrame#headerCard,
+QFrame#toolbarCard,
+QFrame#tableCard,
+QFrame#footerCard {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+/* Typography */
+QLabel#appTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+QLabel#appSubtitle {
+    font-size: 12px;
+    color: #64748B;
+}
+
+QLabel#sectionLabel {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+QLabel#fileStatusLabel {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #475569;
+    font-size: 12px;
+}
+
+/* Buttons */
+QPushButton {
+    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+QPushButton#primaryButton {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    border: 1px solid #1D4ED8;
+}
+
+QPushButton#primaryButton:hover {
+    background-color: #1D4ED8;
+}
+
+QPushButton#primaryButton:pressed {
+    background-color: #1E40AF;
+}
+
+QPushButton#primaryButton:disabled {
+    background-color: #93C5FD;
+    border-color: #93C5FD;
+    color: #EFF6FF;
+}
+
+QPushButton#secondaryButton {
+    background-color: #EEF2FF;
+    color: #1D4ED8;
+    border: 1px solid #C7D2FE;
+}
+
+QPushButton#secondaryButton:hover {
+    background-color: #E0E7FF;
+    border-color: #A5B4FC;
+}
+
+QPushButton#secondaryButton:pressed {
+    background-color: #C7D2FE;
+}
+
+/* Inputs */
+QLineEdit#bonusInput {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0F172A;
+    min-width: 90px;
+    max-width: 130px;
+}
+
+QLineEdit#bonusInput:hover {
+    border-color: #94A3B8;
+}
+
+QLineEdit#bonusInput:focus {
+    border: 2px solid #2563EB;
+    padding: 6px 11px;
+    background-color: #FFFFFF;
+}
+
+/* Grades Table */
+QTableWidget#gradesTable {
+    background-color: #FFFFFF;
+    alternate-background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    gridline-color: #E2E8F0;
+    selection-background-color: #DBEAFE;
+    selection-color: #1E3A8A;
+    font-size: 13px;
+    outline: 0;
+}
+
+QTableWidget#gradesTable::item {
+    padding: 6px 10px;
+    border: none;
+}
+
+QTableWidget#gradesTable::item:selected {
+    background-color: #DBEAFE;
+    color: #1E3A8A;
+}
+
+QHeaderView::section {
+    background-color: #F1F5F9;
+    color: #334155;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 10px;
+    border: none;
+    border-bottom: 1px solid #CBD5E1;
+    border-right: 1px solid #E2E8F0;
+}
+
+QHeaderView::section:last {
+    border-right: none;
+}
+
+QTableCornerButton::section {
+    background-color: #F1F5F9;
+    border: none;
+    border-bottom: 1px solid #CBD5E1;
+    border-right: 1px solid #E2E8F0;
+}
+
+/* Scrollbars */
+QScrollBar:vertical {
+    background-color: #F8FAFC;
+    width: 10px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #CBD5E1;
+    min-height: 28px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: #94A3B8;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar:horizontal {
+    background-color: #F8FAFC;
+    height: 10px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: #CBD5E1;
+    min-width: 28px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: #94A3B8;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+    width: 0px;
+}
+
+/* Message Boxes */
+QMessageBox {
+    background-color: #FFFFFF;
+}
+
+QMessageBox QPushButton {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    min-width: 76px;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #1D4ED8;
+}
